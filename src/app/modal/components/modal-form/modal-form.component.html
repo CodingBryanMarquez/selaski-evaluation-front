@@ -1,0 +1,323 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{ title }}</h4>
+  <button
+    type="button"
+    class="btn-close close pull-right"
+    aria-label="Close"
+    (click)="closeModal()"
+  >
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group" *ngIf="form">
+    <form [formGroup]="form">
+      <div class="mb-3">
+        <label for="user" class="form-label">Usuario</label>
+        <select
+          class="form-select"
+          name="user"
+          id="user"
+          formControlName="user"
+        >
+          <option value="null" selected>Seleccione un usuario</option>
+          <option [value]="item.id" *ngFor="let item of collectionSelect">
+            {{ item.label }}
+          </option>
+        </select>
+        <span
+          class="text-danger"
+          *ngIf="
+            (formControl.user.touched || submitted) &&
+            formControl.user.errors?.required
+          "
+        >
+          * Usuario es requerido
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="order-number" class="form-label">Numero de orden</label>
+        <input
+          type="text"
+          class="form-control"
+          id="order-number"
+          placeholder="Escriba el numero de orden"
+          formControlName="orderNumber"
+        />
+        <span
+          class="text-danger"
+          *ngIf="
+            (formControl.orderNumber.touched || submitted) &&
+            formControl.orderNumber.errors?.required
+          "
+        >
+          * Numero de orden es requerida
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="date" class="form-label">Fecha de la orden</label>
+        <input
+          type="text"
+          placeholder="Seleccione una fecha para la orden"
+          id="date"
+          class="form-control"
+          formControlName="date"
+          bsDatepicker
+        />
+        <span
+          class="text-danger"
+          *ngIf="
+            (formControl.date.touched || submitted) &&
+            formControl.date.errors?.required
+          "
+        >
+          * Fecha de la orden es requerida
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="name-provider" class="form-label"
+          >Nombre del proveedor</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="name-provider"
+          formControlName="nameProvider"
+          placeholder="Escriba el nombre del proveedor"
+        />
+        <span
+          class="text-danger"
+          *ngIf="
+            (formControl.nameProvider.touched || submitted) &&
+            formControl.nameProvider.errors?.required
+          "
+        >
+          * Nombre del proveedor es requerido
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="observation" class="form-label">Observacion</label>
+        <textarea
+          name="observation"
+          id="observation"
+          class="form-control"
+          formControlName="observation"
+          placeholder="Escriba una observación"
+        ></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="total-value" class="form-label"
+          >Total valor de la orden</label
+        >
+        <div class="input-group">
+          <span class="input-group-text">$</span>
+          <input
+            id="total-value"
+            type="text"
+            class="form-control"
+            formControlName="totalValue"
+            placeholder="Escriba el valor de la orden"
+          />
+          <span class="input-group-text">.00</span>
+        </div>
+        <span
+          class="text-danger"
+          *ngIf="
+            (formControl.totalValue.touched || submitted) &&
+            formControl.totalValue.errors?.required
+          "
+        >
+          * Valor de la orden es requerida
+        </span>
+        <span
+          class="text-danger"
+          *ngIf="
+            (formControl.totalValue.touched || submitted) &&
+            formControl.totalValue.errors?.pattern
+          "
+        >
+          * Solo numeros
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="status" class="form-label">Estado</label>
+        <select
+          class="form-select"
+          formControlName="status"
+          name="status"
+          id="status"
+        >
+          <option value="null" selected>Seleccione un estado</option>
+          <option [value]="item.label" *ngFor="let item of statusOrder">
+            {{ item.label }}
+          </option>
+        </select>
+        <span
+          class="text-danger"
+          *ngIf="
+            (formControl.status.touched || submitted) &&
+            formControl.status.errors?.required
+          "
+        >
+          *Estado de la orden es requerido
+        </span>
+      </div>
+      <div
+        *ngFor="let control of productsFieldAsFormArray.controls; let i = index"
+        formArrayName="product"
+        class="mb-3"
+      >
+        <div [formGroupName]="i">
+          <div class="mb-3">
+            <h5>Prodcuto nro: {{ i + 1 }}</h5>
+          </div>
+          <div class="mb-3">
+            <label for="value-unit" class="form-label">Valor unitario</label>
+            <input
+              type="text"
+              class="form-control"
+              id="value-unit"
+              formControlName="valueUnit"
+              placeholder="Escriba el valor de la unidad"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="unit" class="form-label">Unidad del producto</label>
+            <select
+              class="form-select"
+              formControlName="unit"
+              name="unit"
+              id="unit"
+            >
+              <option value="null" selected>
+                Seleccione una unidad para el producto
+              </option>
+              <option [value]="item.label" *ngFor="let item of statusProduct">
+                {{ item.label }}
+              </option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Descripción</label>
+            <textarea
+              name="description"
+              id="description"
+              class="form-control"
+              formControlName="description"
+              placeholder="Escriba una descripcion"
+            ></textarea>
+          </div>
+          <div class="mb-3" *ngIf="mode === 'Add'">
+            <label for="sku" class="form-label">sku</label>
+            <input
+              type="text"
+              class="form-control"
+              id="sku"
+              formControlName="sku"
+              placeholder="Escriba el sku"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="quantity" class="form-label">Cantidad</label>
+            <input
+              type="text"
+              class="form-control"
+              id="quantity"
+              formControlName="quantity"
+              placeholder="Escriba la cantidad"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="qty-box" class="form-label">Cantidad por caja</label>
+            <input
+              type="text"
+              class="form-control"
+              id="qty-box"
+              formControlName="qtyBox"
+              placeholder="Escriba la cantidad por caja"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="weight" class="form-label">Peso</label>
+            <input
+              type="text"
+              class="form-control"
+              id="weight"
+              formControlName="weight"
+              placeholder="Escriba el peso"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="volumen" class="form-label">Volumen</label>
+            <input
+              type="text"
+              class="form-control"
+              id="volumen"
+              formControlName="volumen"
+              placeholder="Escriba el volumen"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="mark" class="form-label">Marca</label>
+            <input
+              type="text"
+              class="form-control"
+              id="mark"
+              formControlName="mark"
+              placeholder="Escriba la marca"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="status-product" class="form-label"
+              >Estado del producto</label
+            >
+            <select
+              class="form-select"
+              formControlName="statusProduct"
+              name="status-product"
+              id="status-product"
+            >
+              <option value="null" selected>
+                Seleccione un estado para el producto
+              </option>
+              <option
+                [value]="item.id"
+                *ngFor="let item of statusCurrentProduct"
+              >
+                {{ item.label }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          class="mb-3 d-inline-flex w-100 justify-content-center"
+          *ngIf="countArray === i + 1 && mode === 'Add'"
+        >
+          <button class="btn btn-success col-lg-5" (click)="addControl()">
+            Agregar un producto
+          </button>
+          <button class="btn btn-danger col-lg-5 offset-1" (click)="remove(i)">
+            Eliminar un producto
+          </button>
+        </div>
+      </div>
+      <div
+        class="mb-3 d-flex w-100 justify-content-center"
+        *ngIf="mode === 'Add' && countArray === 0"
+      >
+        <button class="btn btn-success col-lg-5" (click)="addControl()">
+          Agregar un producto
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-default border" (click)="closeModal()">
+    {{ buttonTextCancel }}
+  </button>
+  <button class="btn btn-primary" (click)="createdData()">
+    {{ buttonTextAccept }}
+  </button>
+</div>

@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{title}}</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModal(false, id)">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <span>
+    {{text}}
+  </span>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default border" (click)="closeModal(false, id)">
+    {{buttonTextCancel}}
+  </button>
+  <button class="btn btn-danger" (click)="closeModal(true, id)">
+    {{buttonTextAccept}}
+  </button>
+</div>

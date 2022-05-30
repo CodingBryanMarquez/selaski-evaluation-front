@@ -1,0 +1,73 @@
+<div
+  class="content d-flex flex-column justify-content-center align-content-center border h-100 mt-auto mb-auto p-4"
+>
+  <div class="content-title d-inline-flex flex-row justify-content-between">
+    <p class="h1">
+      {{ title }}
+    </p>
+    <button class="btn btn-primary" (click)="openModalCreate()">
+      <i class="bi bi-clipboard-plus"></i> Crear ordenes
+    </button>
+  </div>
+  <div
+    class="content-table flex-column flex-wrap overflow-auto mt-5"
+    *ngIf="tableCheck"
+  >
+    <table class="table table-striped text-center">
+      <thead>
+        <tr>
+          <th scope="col">Numero de orden</th>
+          <th scope="col">Fecha de la orden</th>
+          <th scope="col">Nombre de proveedor</th>
+          <th scope="col">Valor de la orden</th>
+          <th scope="col">Estado de la orden</th>
+          <th scope="col">Opciones</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="collection.data.length > 0">
+        <tr *ngFor="let item of collection.data | paginate: config">
+          <td>{{ item.orderNumber }}</td>
+          <td>{{ item.dateTime }}</td>
+          <td>{{ item.providerName }}</td>
+          <td>{{ item.totalValue }}</td>
+          <td>{{ item.status }}</td>
+          <td class="d-inline-flex flex-row w-100">
+            <p
+              class="btn btn-success col-lg-3"
+              (click)="openModalDetail(item.idOrder, item)"
+              tooltip="Ver"
+            >
+              <i class="bi bi-search"></i>
+            </p>
+            <p
+              class="btn btn-warning col-lg-3 offset-lg-1"
+              (click)="openModalUpdate(item.idOrder, item)"
+              tooltip="Editar"
+            >
+              <i class="bi bi-pencil-square text-white"></i>
+            </p>
+            <p
+              class="btn btn-danger col-lg-3 offset-lg-1"
+              (click)="openModalDelete(item.idOrder)"
+              tooltip="Eliminar"
+            >
+              <i class="bi bi-trash3"></i>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <span
+      class="d-flex justify-content-center w-100"
+      *ngIf="collection.data.length === 0"
+    >
+      No posee ninguna orden registrada
+    </span>
+
+    <pagination-controls
+      *ngIf="collection.data.length > 0"
+      class="d-flex justify-content-end"
+      (pageChange)="pageChanged($event)"
+    ></pagination-controls>
+  </div>
+</div>

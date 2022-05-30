@@ -1,0 +1,32 @@
+<div
+  class="content d-flex flex-column justify-content-center align-content-center border h-100 mt-auto mb-auto p-4"
+>
+  <div class="content-title flex-column">
+    <p class="h1">Tabla de usuarios</p>
+  </div>
+  <div class="content-table flex-column mt-5">
+    <table class="table table-striped text-center" *ngIf="tableCheck">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Correo</th>
+          <th scope="col">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of collection.data | paginate: config">
+          <th scope="row">{{ item.idUser }}</th>
+          <td>{{ item.name }}</td>
+          <td>{{ item.email }}</td>
+          <td>{{ item.status === 1 ? "Activo" : "Inactivo" }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <pagination-controls
+      class="d-flex justify-content-end"
+      (pageChange)="pageChanged($event)"
+    ></pagination-controls>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<div
+  class="content d-flex flex-column justify-content-center align-content-center border h-100 mt-auto mb-auto p-4"
+>
+  <div class="content-title d-inline-flex flex-row justify-content-between">
+    <p class="h1">Tabla de productos</p>
+  </div>
+  <div
+    class="content-table flex-column flex-wrap overflow-auto mt-5"
+    *ngIf="tableCheck"
+  >
+    <table class="table table-striped text-center">
+      <thead>
+        <tr>
+          <th scope="col">IdOrder</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">SKU</th>
+          <th scope="col">Marca</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Opciones</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="collection.data.length > 0">
+        <tr *ngFor="let item of collection.data | paginate: config">
+          <td>{{ item.idOrder }}</td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.sku }}</td>
+          <td>{{ item.mark }}</td>
+          <td>{{ item.status === 1 ? "Activo" : "Inactivo" }}</td>
+          <td class="d-inline-flex flex-row w-100 justify-content-center">
+            <p
+              class="btn btn-success col-lg-3"
+              (click)="openModalDetail(item.idOrder, item)"
+              tooltip="Ver"
+            >
+              <i class="bi bi-search"></i>
+            </p>
+            <p
+              class="btn btn-danger col-lg-3 offset-lg-1"
+              (click)="openModalDelete(item.idOrdersProducts)"
+              tooltip="Eliminar"
+            >
+              <i class="bi bi-trash3"></i>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <span
+      class="d-flex justify-content-center w-100"
+      *ngIf="collection.data.length === 0"
+    >
+      No posee ningun producto registrado
+    </span>
+
+    <pagination-controls
+      *ngIf="collection.data.length > 0"
+      class="d-flex justify-content-end"
+      (pageChange)="pageChanged($event)"
+    ></pagination-controls>
+  </div>
+</div>

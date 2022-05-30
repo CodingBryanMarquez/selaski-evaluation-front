@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{ title }}</h4>
+  <button
+    type="button"
+    class="btn-close close pull-right"
+    aria-label="Close"
+    (click)="closeModal()"
+  >
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body" *ngIf="chekDetail">
+  <div
+    *ngFor="let in of counter(headArray.length); let i = index"
+    class="d-inline-flex flex-row w-100 justify-content-center"
+  >
+    <span class="col-lg-5 text-end"> {{ headArray[i] }} : </span>
+    <span class="col-lg-5 offset-1 text-start text-black-50">
+      {{ valueArray[i] }}
+    </span>
+  </div>
+</div>
